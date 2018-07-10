@@ -4,7 +4,7 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: test_eureka_service
+        - id: redirect_auth
           uri: lb://AUTH-SERVICE
           order: 0
           predicates:
@@ -12,13 +12,20 @@ spring:
           filters:
               - StripPrefix=1
               - RedirectTo=302,http://AUTH-SERVICE/envInfo/target
+        - id: simple_auth
+          uri: lb://AUTH-SERVICE
+          order: 0
+          predicates:
+              - Path=/simple-auth/**
+          filters:
+              - StripPrefix=1
 
 server:
   port: 6145
 eureka:
   client:
     service-url:
-      defaultZone: http://registerCenter:abc123456@192.168.3.137:8788/eureka
+      defaultZone: http://eureka.didispace.com/eureka/
 
 logging:
   level:
