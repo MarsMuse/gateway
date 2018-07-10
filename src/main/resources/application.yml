@@ -11,7 +11,7 @@ spring:
               - Path=/auth/**
           filters:
               - StripPrefix=1
-              - RedirectTo=302,http://AUTH-SERVICE/envInfo/source
+              - RedirectTo=302,http://AUTH-SERVICE/envInfo/target
 
 server:
   port: 6145
