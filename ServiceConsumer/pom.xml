@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ServiceVendor</artifactId>
+    <artifactId>ServiceConsumer</artifactId>
     <dependencies>
 
         <dependency>
@@ -25,12 +25,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.cttc</groupId>
-            <artifactId>AdjointTransmit</artifactId>
-            <version>1.0</version>
         </dependency>
 
     </dependencies>

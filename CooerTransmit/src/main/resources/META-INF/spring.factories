@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.artisan.transmit.sleuth.servlet.PermeateAutoConfiguration,\
+com.artisan.transmit.slot.servlet.ServletHeaderGrabAutoConfiguration,\
+com.artisan.transmit.slot.ribbon.RestHeaderAutoConfiguration

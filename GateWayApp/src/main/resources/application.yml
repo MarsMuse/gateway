@@ -11,7 +11,8 @@ spring:
               - Path=/auth/**
           filters:
               - StripPrefix=1
-              - RedirectTo=302,http://AUTH-SERVICE/envInfo/target
+              - RedirectTo=302,http://AUTH-SERVICE/envInfo/target?test=test
+              - ResponseCheck
         - id: simple_auth
           uri: lb://AUTH-SERVICE
           order: 0
@@ -19,6 +20,7 @@ spring:
               - Path=/simple-auth/**
           filters:
               - StripPrefix=1
+              - TokenCheck
 
 server:
   port: 6145
@@ -30,3 +32,23 @@ eureka:
 logging:
   level:
     org.springframework.cloud.gateway: debug
+
+
+
+token:
+  tokenCachePrefix: USER-TOKEN-CACHE
+  base64Secret: JLKC-GATEWAY-KEY
+  webExpSecond: 1800
+  algName: HS256
+  
+  
+redis:
+  nodes: 192.168.3.106:26379,192.168.3.105:26379,192.168.3.107:26379
+  masterName: myredis
+  password: yds2018
+  maxTotal: 10000
+  maxIdle: 100
+  minIdle: 50
+  timeout: 30000
+
+
