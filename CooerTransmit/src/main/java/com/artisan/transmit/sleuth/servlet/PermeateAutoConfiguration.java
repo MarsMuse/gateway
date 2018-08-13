@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author xz man
  * @date 2018/7/18 下午3:56
- * 渗透传输自动化配置
+ * 通过Sleuth渗透传输自动化配置
+ * 由于sleuth2.0与之前版本差异过于大，参数携带方式被修改，故暂时停止支持
  *
  */
 @Configuration

@@ -35,7 +35,7 @@ public class HeaderGrabInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        FlumeBootStream.addParameter("Artisan","工匠精神");
+
         if(null != headers && headers.length >0){
             for(String header : headers){
                 String value = request.getHeader(header);
@@ -52,7 +52,7 @@ public class HeaderGrabInterceptor implements HandlerInterceptor {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()){
             String currentHeaderName = headerNames.nextElement();
-            if(currentHeaderName.startsWith(matchHeader)){
+            if(currentHeaderName.startsWith(matchHeader.toLowerCase())){
                 String value = request.getHeader(currentHeaderName);
                 if(null != value && value.length() >0){
                     FlumeBootStream.addParameter(currentHeaderName, value);

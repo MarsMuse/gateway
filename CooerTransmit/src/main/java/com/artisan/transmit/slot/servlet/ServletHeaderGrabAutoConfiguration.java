@@ -1,9 +1,8 @@
 package com.artisan.transmit.slot.servlet;
 
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -17,16 +16,19 @@ import javax.servlet.Servlet;
  * 注解自动配置
  *
  */
-@Configuration
-@ConditionalOnProperty(value = "transmit.slot.servlet.headers")
+@ConfigurationProperties(prefix = "transmit.slot.servlet",ignoreUnknownFields = true)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class})
 public class ServletHeaderGrabAutoConfiguration extends WebMvcConfigurerAdapter {
 
-    @Value("${transmit.slot.servlet.headers}")
-    private String[] headers;
+    /**
+     * 需要拦截下来的头信息
+     */
+    private String[] headers={"userId","loginName","userSource"};
 
-    @Value("${transmit.slot.servlet.prefixHeader:cttc-}")
-    private String prefixHeader;
+    /**
+     * 需要匹配的头信息名称前缀
+     */
+    private String prefixHeader="artist-";
 
     /**
      *
@@ -37,6 +39,24 @@ public class ServletHeaderGrabAutoConfiguration extends WebMvcConfigurerAdapter 
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new HeaderGrabInterceptor(prefixHeader,headers)).addPathPatterns("/**");
+        registry.addInterceptor(
+                new HeaderGrabInterceptor(prefixHeader, headers)).addPathPatterns("/**");
+    }
+
+
+    public String[] getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(String[] headers) {
+        this.headers = headers;
+    }
+
+    public String getPrefixHeader() {
+        return prefixHeader;
+    }
+
+    public void setPrefixHeader(String prefixHeader) {
+        this.prefixHeader = prefixHeader;
     }
 }

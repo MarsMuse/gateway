@@ -16,7 +16,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -30,6 +34,11 @@
         <dependency>
             <groupId>com.cttc</groupId>
             <artifactId>AdjointTransmit</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cttc</groupId>
+            <artifactId>CooerTransmit</artifactId>
             <version>1.0</version>
         </dependency>
 

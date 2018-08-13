@@ -15,23 +15,24 @@ import java.util.Set;
  *
  * @author xz man
  * @date 2018/7/19 下午5:54
+ * 给Feign添加一个拦截器
  *
  */
 @Configuration
 @ConditionalOnClass(value = Feign.class)
-@ConditionalOnProperty(value = "transmit.slot.servlet.headers")
+@ConditionalOnProperty(value = "transmit.slot.enabled",matchIfMissing = true)
 public class FeignFlumeInterceptor implements RequestInterceptor {
 
     /**
      *
      * @author xz man
      * @date 2018/7/19 下午5:56
-     * 在Feign的请求头里面加入我们需要的东西
+     * 在Feign的请求头里面加入我们需要的信息
      *
      */
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        Map<String, String>  parameterContainer = FlumeBootStream.getParameter();
+        Map<String, String>  parameterContainer = FlumeBootStream.getParameterKeyLowerCase();
         if(parameterContainer!= null && !parameterContainer.isEmpty()){
             Set<String> keySet = parameterContainer.keySet();
             //在请求头中加入

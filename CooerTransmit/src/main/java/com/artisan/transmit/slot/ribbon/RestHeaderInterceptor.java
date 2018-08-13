@@ -23,7 +23,7 @@ public class RestHeaderInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes, ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
         HttpHeaders headers = httpRequest.getHeaders();
 
-        Map<String, String> parameterContainer = FlumeBootStream.getParameter();
+        Map<String, String> parameterContainer = FlumeBootStream.getParameterKeyLowerCase();
         if(parameterContainer!= null && !parameterContainer.isEmpty()){
             Set<String> keySet = parameterContainer.keySet();
             //在请求头中加入
@@ -32,7 +32,6 @@ public class RestHeaderInterceptor implements ClientHttpRequestInterceptor {
             }
         }
 
-        //继续执行
         return clientHttpRequestExecution.execute(httpRequest, bytes);
     }
 }

@@ -1,0 +1,22 @@
+{
+  "properties": [
+    {
+      "name": "transmit.slot.servlet.headers",
+      "type": "java.lang.String[]",
+      "description": "需要拦截的请求头键值.",
+      "defaultValue": ["userId","loginName","userSource"]
+    },
+    {
+      "name": "transmit.slot.servlet.prefixHeader",
+      "type": "java.lang.String",
+      "description": "可匹配的拦截请求头键值.",
+      "defaultValue": "artist-"
+    },
+    {
+      "name": "transmit.slot.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启服务间参数穿透传递.",
+      "defaultValue": true
+    }
+  ]
+}

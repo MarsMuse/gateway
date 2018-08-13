@@ -2,6 +2,7 @@ package com.artisan.transmit.slot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -13,20 +14,33 @@ import java.util.Map;
 public class FlumeBootStream {
 
     /**
-     * 容器
+     * 线程本地存储
      */
-    private static final ThreadLocal<Map<String,String>>  CACHE_CONTAINER = new ThreadLocal<>();
+    private static final ThreadLocal<Map<String,String>>  LOCAL_STORAGE = new ThreadLocal<>();
+
+    /**
+     * 缓存容器默认容量
+     */
+    private static final int DEF_CONTAINER_CAPACITY = 8;
 
 
-
-    private static void initContainer(){
+    /**
+     *
+     * @author xz man
+     * @date 2018/7/20 上午10:43
+     * 获取到线程本地存储的容器--若未初始化，则需要初始化容器
+     *
+     */
+    private static Map<String,String> getContainer(){
 
         //初始化容器对象
-        Map<String,String>  parameterContainer = CACHE_CONTAINER.get();
+        Map<String,String>  parameterContainer = LOCAL_STORAGE.get();
         if(parameterContainer == null){
-            CACHE_CONTAINER.set(new HashMap<>(8));
+            parameterContainer = new HashMap<>(DEF_CONTAINER_CAPACITY);
+            LOCAL_STORAGE.set(parameterContainer);
         }
-
+        
+        return parameterContainer;
     }
 
     /**
@@ -40,11 +54,9 @@ public class FlumeBootStream {
         if(null == key || "".equals(key) || null == value || "".equals(value)){
             return;
         }
-        //初始化
-        initContainer();
 
-        Map<String,String>  parameterContainer = CACHE_CONTAINER.get();
-        parameterContainer.put(key, value);
+        Map<String,String>  parameterContainer = getContainer();
+        parameterContainer.put(key.toLowerCase(), value);
     }
 
     /**
@@ -58,10 +70,12 @@ public class FlumeBootStream {
         if(headers == null || headers.isEmpty()){
             return;
         }
-        //初始化
-        initContainer();
-        Map<String,String>  parameterContainer = CACHE_CONTAINER.get();
-        parameterContainer.putAll(headers);
+        Set<String>  keySet = headers.keySet();
+        Map<String,String>  parameterContainer = getContainer();
+        for(String key: keySet){
+            String value = headers.get(key);
+            parameterContainer.put(key.toLowerCase(), value);
+        }
     }
 
     /**
@@ -76,8 +90,8 @@ public class FlumeBootStream {
             return null;
         }
 
-        Map<String,String>  parameterContainer = CACHE_CONTAINER.get();
-        return parameterContainer.get(key);
+        Map<String,String>  parameterContainer = getContainer();
+        return parameterContainer.get(key.toLowerCase());
     }
 
     /**
@@ -87,10 +101,9 @@ public class FlumeBootStream {
      * 获取到参数
      *
      */
-    public static Map<String,String> getParameter(){
+    public static Map<String,String> getParameterKeyLowerCase(){
 
-        Map<String,String>  parameterContainer = CACHE_CONTAINER.get();
-        return parameterContainer;
+        return getContainer();
     }
 
     /**
@@ -102,6 +115,6 @@ public class FlumeBootStream {
      */
     public static void clear(){
 
-        CACHE_CONTAINER.remove();
+        LOCAL_STORAGE.remove();
     }
 }
